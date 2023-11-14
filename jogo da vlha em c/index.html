@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>jogo da velha</title>
+</head>
+<body>
+  <h1>jogo da velha</h1>
+  <code>
+    <pre>
+      <code>
+        #include <stdio.h>
+
+          void imprimirTabuleiro(char tabuleiro[3][3]) {
+              printf("\n");
+              for (int i = 0; i < 3; i++) {
+                  for (int j = 0; j < 3; j++) {
+                      printf(" %c ", tabuleiro[i][j]);
+                      if (j < 2) printf("|");
+                  }
+                  printf("\n");
+                  if (i < 2) printf("-----------\n");
+              }
+              printf("\n");
+          }
+          
+          char verificarVencedor(char tabuleiro[3][3]) {
+              for (int i = 0; i < 3; i++) {
+                  if (tabuleiro[i][0] == tabuleiro[i][1] && tabuleiro[i][1] == tabuleiro[i][2] && tabuleiro[i][0] != ' ')
+                      return tabuleiro[i][0];
+                  if (tabuleiro[0][i] == tabuleiro[1][i] && tabuleiro[1][i] == tabuleiro[2][i] && tabuleiro[0][i] != ' ')
+                      return tabuleiro[0][i];
+              }
+          
+              if (tabuleiro[0][0] == tabuleiro[1][1] && tabuleiro[1][1] == tabuleiro[2][2] && tabuleiro[0][0] != ' ')
+                  return tabuleiro[0][0];
+              if (tabuleiro[0][2] == tabuleiro[1][1] && tabuleiro[1][1] == tabuleiro[2][0] && tabuleiro[0][2] != ' ')
+                  return tabuleiro[0][2];
+          
+              return ' ';
+          }
+          
+          int main() {
+              char tabuleiro[3][3] = {{' ', ' ', ' '}, {' ', ' ', ' '}, {' ', ' ', ' '}};
+              int linha, coluna;
+              char jogador = 'X';
+              char vencedor;
+          
+              do {
+                  imprimirTabuleiro(tabuleiro);
+          
+                  printf("Jogador %c, insira a linha (0-2) e a coluna (0-2) separadas por um espaço: ", jogador);
+                  while (scanf("%d %d", &linha, &coluna) != 2 || linha < 0 || linha >= 3 || coluna < 0 || coluna >= 3 || tabuleiro[linha][coluna] != ' ') {
+                      printf("Entrada inválida. Tente novamente: ");
+                      while (getchar() != '\n');
+                  }
+          
+                  if (linha >= 0 && linha < 3 && coluna >= 0 && coluna < 3 && tabuleiro[linha][coluna] == ' ') {
+                      tabuleiro[linha][coluna] = jogador;
+                      vencedor = verificarVencedor(tabuleiro);
+                      jogador = (jogador == 'X') ? 'O' : 'X';
+                  } else {
+                      printf("Jogada inválida. Tente novamente.\n");
+                  }
+              } while (vencedor == ' ' && linha >= 0 && linha < 3 && coluna >= 0 && coluna < 3);
+          
+              imprimirTabuleiro(tabuleiro);
+          
+              if (vencedor != ' ')
+                  printf("Jogador %c venceu!\n", vencedor);
+              else
+                  printf("Empate!\n");
+          
+              return 0;
+          }
+          
+      </code>
+    </pre>
+  </code>
+</body>
+</html>
